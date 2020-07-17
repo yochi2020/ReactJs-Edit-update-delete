@@ -1,25 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import {BrowserRouter,Route,Switch} from 'react-router-dom';
+import {Provider} from 'react-redux'
+import {createStore} from 'redux'
+import Reducer from './Reducer'
+import Header from './Header'
+import AddStudent from './Add-student'
+import EditStudent from './Edit-student'
+import StudentLists from './Student-lists'
+import PageNotFound from './Page-not-found'
+import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
+  const store = createStore(Reducer)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <div className="container">
+        <BrowserRouter>
+        <Header/>
+          <Switch>
+            <Route exact path="/edit/:id" component={EditStudent}></Route>
+            <Route exact path="/add" component={AddStudent}></Route>
+            <Route exact path="/" component={StudentLists}></Route>
+            <Route component={PageNotFound}></Route>
+          </Switch>
+        </BrowserRouter>
+      </div>
+    </Provider>
   );
 }
 
